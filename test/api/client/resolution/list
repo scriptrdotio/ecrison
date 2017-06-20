@@ -1,0 +1,6 @@
+var clientModule = require("../../../../client");
+var resolution = require("../../../../clientapi/resolutionManager");
+var client = new clientModule.Client(); 
+
+var resolutionManager = new resolution.ResolutionManager({"client": client});
+return resolutionManager.listResolutions();

@@ -1,0 +1,39 @@
+function Collection(dto) {
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+
+    if (!dto || !dto.Id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.Id cannot be null or empty"
+        };
+    }
+    
+    for(key in dto){
+        this[key] = dto[key];
+    }
+    
+    this.id = dto['Id'];
+}
+
+/**
+ * List all the sensors
+ * @method listSensors
+ * @return{Array} Sensors instances.
+ */
+Collection.prototype.listSensors = function(params){
+    var sensors = require("./sensorManager");
+
+    var sensorManager = new sensors.SensorManager({
+        "client": this.client,
+    });
+	if(!params) params = {};
+    params["collectionId"] = this.id
+    return sensorManager.listSensorsInCollection(params);
+}
+
+

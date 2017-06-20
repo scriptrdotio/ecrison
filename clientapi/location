@@ -1,0 +1,51 @@
+var config = require("../config");
+function Location(dto) {
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+    
+    if (!dto || !dto.Id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.Id cannot be null or empty"
+        };
+    }
+    
+    for(key in dto){
+        this[key] = dto[key];
+    }
+    
+    this.id = dto['Id'];
+} 
+
+
+Location.prototype.listCollections = function(params){
+    var collections = require("./collectionManager");
+
+    var collectionManager = new collections.CollectionManager({
+        "client": this.client,
+    });
+	if(!params) params = {};
+    params["locationId"] = this.id
+    return collectionManager.listCollectionsInLocation(params);
+}
+
+Location.prototype.getCalculatedValues = function(){
+  var requestParams  = {
+        url: config.clientUrlPrefix + "/locations/" + this.id + "/calculatedValues",
+        method: "GET"
+    }
+
+    var data = this.client.callApi(requestParams);
+    var list = [];
+    for (var i = 0; data && i < data; i++) {
+        var dto = data[i];
+        dto.client = this.client;
+        var sensor = new sensorModule.Sensor(dto);
+        list.push(sensor);
+    }
+    return list;
+}

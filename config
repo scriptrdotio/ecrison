@@ -1,0 +1,7 @@
+const clientUrlPrefix = "https://eappiot-api.sensbysigma.com/clientapi/v1"; // Client API URL prefix
+
+const token = "";// Default API key
+ 
+const errorCodeList = {
+    "missingParameter" : "MISSING_PARAMETER"
+}

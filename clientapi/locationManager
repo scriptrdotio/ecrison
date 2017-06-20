@@ -1,0 +1,48 @@
+var config = require("../config");
+var locationModule = require("./location");
+
+function LocationManager(dto) { 
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+
+    for(key in dto){
+        this[key] = dto[key];
+    }
+    
+} 
+
+LocationManager.prototype.listLocations = function(params){
+    var url = config.clientUrlPrefix + "/locations/";
+    if(params && params.id){
+        url = url + params.id +"/sublocations/"
+    }
+     var requestParams  = {
+        url: url,
+        method: "GET"
+    }
+	
+    var data = this.client.callApi(requestParams);
+    var list = [];
+    for (var i = 0; data && i < data.length; i++) {
+        var dto = data[i];
+        dto.client = this.client;
+        var location = new locationModule.Location(dto);
+        list.push(location);
+    }
+    
+    return list;
+}
+
+LocationManager.prototype.listChildLocations = function(params){
+    if (!params || !params.id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "id cannot be null or empty."
+        };
+    }
+    return this.listLocations(params)
+}
