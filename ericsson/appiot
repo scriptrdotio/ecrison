@@ -25,7 +25,9 @@ function AppIoT(config) {
         }
     }
    
-    this.client = new clientModule.Client({token:token});
+    this.token = this.token ? this.token : configModule.token;
+    this.adminToken = this.adminToken ? this.adminToken : configModule.adminToken;
+    this.client = new clientModule.Client({token:this.token});
 }
 
 AppIoT.prototype.getCollectionManager = function() {
