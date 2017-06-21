@@ -3,6 +3,8 @@ const clientUrlPrefix = appIoTPrefix + "/clientapi/v1"; // Client API URL prefix
 
 const token = "";// Default API key
 
+const adminToken = ""; // Default admin API key
+
 const errorCodeList = {
     "missingParameter" : "MISSING_PARAMETER",
     "invalidAction": "INVALID_ACTION",
