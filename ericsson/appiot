@@ -8,7 +8,7 @@ var consumermgt = require("./clientapi/consumerManager");
 var locationmgt = require("./clientapi/locationManager");
 var resolutionmgt = require("./clientapi/resolutionManager");
 var sensormgt = require("./clientapi/sensorManager");
-var client = require("./client");
+var clientModule = require("./client");
 var configModule = require("./config");
 
 /**
@@ -25,7 +25,7 @@ function AppIoT(config) {
         }
     }
    
-    this.client = new Client({token:token});
+    this.client = new clientModule.Client({token:token});
 }
 
 AppIoT.prototype.getCollectionManager = function() {
