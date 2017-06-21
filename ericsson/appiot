@@ -24,8 +24,7 @@ function AppIoT(config) {
             this[key] = config[key]
         }
     }
-    
-    this.token = config.token ? config.token : configModule.token;
+   
     this.client = new Client({token:token});
 }
 
