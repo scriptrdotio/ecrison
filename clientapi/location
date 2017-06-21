@@ -1,4 +1,12 @@
 var config = require("../config");
+/**
+ * Wraps part of the location API.
+ * @class Location
+ * @constructor Location
+ * @param {Object} [dto]
+ * @param {Object} [dto.client]: instance of the Client class (mandatory)
+ * @param {Object} [dto.Id]: identifier of the location (mandatory)
+ */
 function Location(dto) {
     if (!dto || !dto.client) {
         throw {
@@ -21,7 +29,12 @@ function Location(dto) {
     this.id = dto['Id'];
 } 
 
-
+/**
+ * List all locations of a given account, or sub-locations of a given location if provided
+ * @param {Object} [params]
+ * @param {String} id: location id (optional)
+ * @return {Array} list of Location instances
+ */
 Location.prototype.listCollections = function(params){
     var collections = require("./collectionManager");
 
