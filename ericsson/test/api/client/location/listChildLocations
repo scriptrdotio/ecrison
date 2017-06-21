@@ -1,0 +1,14 @@
+var clientModule = require("../../../../client");
+var location = require("../../../../clientapi/locationManager");
+var client = new clientModule.Client(); 
+var locationManager = new location.LocationManager({"client": client});
+var locationId = request.parameters['id'];
+
+try{
+    return locationManager.listChildLocations({
+        id:locationId
+    });
+    
+}catch(ex){
+    return ex;
+}

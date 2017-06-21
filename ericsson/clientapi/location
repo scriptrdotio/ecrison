@@ -1,0 +1,64 @@
+var config = require("../config");
+/**
+ * Wraps part of the location API.
+ * @class Location
+ * @constructor Location
+ * @param {Object} [dto]
+ * @param {Object} [dto.client]: instance of the Client class (mandatory)
+ * @param {Object} [dto.Id]: identifier of the location (mandatory)
+ */
+function Location(dto) {
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+    
+    if (!dto || !dto.Id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.Id cannot be null or empty"
+        };
+    }
+    
+    for(key in dto){
+        this[key] = dto[key];
+    }
+    
+    this.id = dto['Id'];
+} 
+
+/**
+ * List all locations of a given account, or sub-locations of a given location if provided
+ * @param {Object} [params]
+ * @param {String} id: location id (optional)
+ * @return {Array} list of Location instances
+ */
+Location.prototype.listCollections = function(params){
+    var collections = require("./collectionManager");
+
+    var collectionManager = new collections.CollectionManager({
+        "client": this.client,
+    });
+	if(!params) params = {};
+    params["locationId"] = this.id
+    return collectionManager.listCollectionsInLocation(params);
+}
+
+Location.prototype.getCalculatedValues = function(){
+  var requestParams  = {
+        url: config.clientUrlPrefix + "/locations/" + this.id + "/calculatedValues",
+        method: "GET"
+    }
+
+    var data = this.client.callApi(requestParams);
+    var list = [];
+    for (var i = 0; data && i < data; i++) {
+        var dto = data[i];
+        dto.client = this.client;
+        var sensor = new sensorModule.Sensor(dto);
+        list.push(sensor);
+    }
+    return list;
+}

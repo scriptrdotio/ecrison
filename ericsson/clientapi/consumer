@@ -1,0 +1,78 @@
+var config = require("../config");
+
+/**
+ * Wraps part of the consumer API.
+ * @class Consumer
+ * @constructor Consumer
+ * @param {Object} [dto]
+ * @param {Object} [dto.client]: instance of the Client class (mandatory)
+ * @param {Object} [dto.Id]: identifier of the location (mandatory)
+ */
+function Consumer(dto) {
+   
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+    
+    if (!dto || !dto.Id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.Id cannot be null or empty"
+        };
+    }
+    
+    for(key in dto){
+        this[key] = dto[key];
+    }
+    
+    this.id = dto['Id'];
+    this.deleted = false;
+}
+
+/**
+ * Update the consumer on the AppIoT platform using the current values of the Consumer instance
+ * @method update
+ */
+Consumer.prototype.update = function() {
+    
+    if (this.deleted) {
+        
+        throw {
+            errorCode: "",
+            errorDetail: "This consumer has been deleted on the AppIoT platform. It can't be updated"
+        };
+    }
+    
+    var params = {
+        "Name": this.Name,
+		"UsingHttpEndpoint": this.UsingHttpEndpoint,
+		"HttpEndpoint": this.HttpEndpoint,
+		"HttpMethod": this.HttpMethod,
+		"HttpUsername": this.HttpUsername,
+		"HttpPassword": this.HttpPassword,
+		"HttpHeaders": this.HttpHeaders
+    };    
+    
+    var requestParams = {
+        url: config.appIoTPrefix + "/api/v2/eventConsumers/" + this.id,
+        method: "PUT",
+        params: params       
+    };
+
+    return this.client.callApi(requestParams); 
+};
+
+Consumer.prototype.deleteConsumer = function(id) {
+    
+    var requestParams = {
+        url: config.appIoTPrefix + "/api/v2/eventConsumers/" + this.id,
+        method: "DELETE"
+    };
+
+    var result = this.client.callApi(requestParams); 
+    this.deleted = true;
+    return result;
+};

@@ -1,0 +1,11 @@
+var consumermgr = require("../../../../clientapi/consumerManager");
+var clientModule = require("../../../../client");
+
+try {
+    
+    var client = new clientModule.Client();
+    var consumerManager = new consumermgr.ConsumerManager({client:client});
+    return consumerManager.getConsumerByName("temp_consumer");
+}catch(exception){
+    return exception;
+}

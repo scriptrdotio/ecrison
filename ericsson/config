@@ -1,0 +1,10 @@
+const appIoTPrefix = "https://eappiot-api.sensbysigma.com";
+const clientUrlPrefix = appIoTPrefix + "/clientapi/v1"; // Client API URL prefix
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzIjoiMjAxNy0xMC0wNlQxNDozNDoyMS44KzAwOjAwIiwiZXhwIjoxNTA3MzAwNDYxLCJuYmYiOi02MjEzNTU5NjgwMCwiaWF0IjotNjIxMzU1OTY4MDAsIm5hbWUiOiJkZW1vYXBwIiwidG9rZW5UeXBlIjoiYWNjZXNzVG9rZW4iLCJpc3N1ZWQiOiIwMDAxLTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwidXNlcklkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0=.6nRvVGYN0V7g0z/7O5ntrWd3SrPU+dyncYSk46WAYag=";// Default API key
+
+const errorCodeList = {
+    "missingParameter" : "MISSING_PARAMETER",
+    "invalidAction": "INVALID_ACTION",
+    "notFound": "ENTITY_NOT_FOUND"
+};

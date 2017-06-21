@@ -1,0 +1,23 @@
+var consumermgr = require("../../../../clientapi/consumerManager");
+var clientModule = require("../../../../client");
+
+try {
+    
+    var adminApiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzIjoiMjAxNy0wOS0yMVQxMDo1OTowMC4yNCswMDowMCIsImV4cCI6MTUwNTk5MTU0MCwibmJmIjotNjIxMzU1OTY4MDAsImlhdCI6LTYyMTM1NTk2ODAwLCJuYW1lIjoiZGVtb2FwcF9hZG1pbiIsInRva2VuVHlwZSI6ImFjY2Vzc1Rva2VuIiwiaXNzdWVkIjoiMDAwMS0wMS0wMVQwMDowMDowMCswMDowMCIsInVzZXJJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCJ9.OGbvGfBBnVI+H6dXFplvOJRr8BRdRFCdfo2jUSqmcbc=";
+    
+    var client = new clientModule.Client({token:adminApiKey});
+    var consumerManager = new consumermgr.ConsumerManager({client:client});
+    var params = {
+        
+        Name: "overload",
+        UsingHttpEndpoint: "true",
+        HttpEndpoint: "https://shoof.api.scriptrapps.io/smartbus/api/updateTemp",
+		HttpHeaders: {"Authorization": "Bearer UDJERUI4MDgzRjpkZW1vOjEwQ0Y5QTZBNzkyRjVERThGM0JCRTBFRkFFOTIzODA0"} 
+    }; 
+    
+    var consumer = consumerManager.createConsumer(params);
+    consumer.Name = "overload_callback";
+    return consumer.update();
+}catch(exception){
+    return exception;
+}
