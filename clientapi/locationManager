@@ -1,6 +1,14 @@
 var config = require("../config");
 var locationModule = require("./location");
 
+/**
+ * Wraps part of the location API.
+ * @class Location
+ * @constructor Location
+ * @param {Object} [dto]
+ * @param {Object} [dto.client]: instance of the Client class (mandatory)
+ * @param {Object} [dto.Id]: identifier of the location (mandatory)
+ */
 function LocationManager(dto) { 
     if (!dto || !dto.client) {
         throw {
@@ -15,6 +23,12 @@ function LocationManager(dto) {
     
 } 
 
+/**
+ * List all locations of a given account, or sub-locations of a given location if provided
+ * @param {Object} [params]
+ * @param {String} id: location id (optional)
+ * @return {Array} list of Location instances
+ */
 LocationManager.prototype.listLocations = function(params){
     var url = config.clientUrlPrefix + "/locations/";
     if(params && params.id){
@@ -35,7 +49,39 @@ LocationManager.prototype.listLocations = function(params){
     }
     
     return list;
-}
+};
+
+/**
+ * Return a location by name
+ * @method getLocationByName
+ * @param {Object} [params]
+ * @param {String} id: location id (optional)
+ * @return {Array} list of Location instances
+ */
+LocationManager.prototype.getLocationByName = function(name){
+    
+    if (!name) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "name cannot be null or empty."
+        };
+    }
+    
+    var location = null;
+    var locations = this.listLocations();
+    for (var i = 0; !location && i < locations.length; i++) {
+        location = locations[i].Name == name ? locations[i] : null;
+    }
+    
+    if (!location){
+         throw {
+            errorCode: config.errorCodeList['notfound'],
+            errorDetail: "Coud not find a location with name " + name
+        };
+    }
+    
+    return location;
+};
 
 LocationManager.prototype.listChildLocations = function(params){
     if (!params || !params.id) {
@@ -45,4 +91,4 @@ LocationManager.prototype.listChildLocations = function(params){
         };
     }
     return this.listLocations(params)
-}
+};
