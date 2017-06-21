@@ -1,0 +1,67 @@
+/**
+ * Factory to access all other API wrappers
+ * @module appiot
+ */
+
+var collectionmgt = require("./clientapi/collectionManager");
+var consumermgt = require("./clientapi/consumerManager");
+var locationmgt = require("./clientapi/locationManager");
+var resolutionmgt = require("./clientapi/resolutionManager");
+var sensormgt = require("./clientapi/sensorManager");
+var client = require("./client");
+var configModule = require("./config");
+
+/**
+ * @class AppIoT
+ * @constructor AppIoT
+ * @param {Object} [config] : can contain token, adminToken and prefixUrl. Default values are specific in ./config
+ */
+function AppIoT(config) {
+    
+    if (config) {
+        
+        for(var key in config){
+            this[key] = config[key]
+        }
+    }
+    
+    this.token = config.token ? config.token : configModule.token;
+    this.client = new Client({token:token});
+}
+
+AppIoT.prototype.getCollectionManager = function() {
+  
+    if (!this.collectionManager) {
+        this.collectionManager = new collectionmgt.CollectionManager({client:client});
+    }
+    
+    return this.collectionManager;
+};
+
+AppIoT.prototype.getConsumerManager = function() {
+  
+    var adminClient = new Client({token:this.adminToken});
+    if (!this.consumerManager) {
+        this.cosumernManager = new consumermgt.ConsumerManager({client:adminClient});
+    }
+    
+    return this.consumerManager;
+};
+
+AppIoT.prototype.getLocationtionManager = function() {
+  
+    if (!this.locationManager) {
+        this.locationManager = new locationmgt.LocationManager({client:client});
+    }
+    
+    return this.locationManager;
+};
+
+AppIoT.prototype.getResolutionManager = function() {
+  
+    if (!this.resolutionManager) {
+        this.resolutionManager = new resolutionmgt.ResolutionManager({client:client});
+    }
+    
+    return this.ResolutionManager;
+};
