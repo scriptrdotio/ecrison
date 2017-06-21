@@ -64,5 +64,14 @@ AppIoT.prototype.getResolutionManager = function() {
         this.resolutionManager = new resolutionmgt.ResolutionManager({client:this.client});
     }
     
-    return this.ResolutionManager;
+    return this.resolutionManager;
+};
+
+AppIoT.prototype.getSensorManager = function() {
+  
+    if (!this.sensorManager) {
+        this.sensorManager = new sensormgt.SensorManager({client:this.client});
+    }
+    
+    return this.sensorManager;
 };
