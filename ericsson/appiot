@@ -33,7 +33,7 @@ function AppIoT(config) {
 AppIoT.prototype.getCollectionManager = function() {
   
     if (!this.collectionManager) {
-        this.collectionManager = new collectionmgt.CollectionManager({client:client});
+        this.collectionManager = new collectionmgt.CollectionManager({client:this.client});
     }
     
     return this.collectionManager;
@@ -52,7 +52,7 @@ AppIoT.prototype.getConsumerManager = function() {
 AppIoT.prototype.getLocationManager = function() {
   
     if (!this.locationManager) {
-        this.locationManager = new locationmgt.LocationManager({client:client});
+        this.locationManager = new locationmgt.LocationManager({client:this.client});
     }
     
     return this.locationManager;
@@ -61,7 +61,7 @@ AppIoT.prototype.getLocationManager = function() {
 AppIoT.prototype.getResolutionManager = function() {
   
     if (!this.resolutionManager) {
-        this.resolutionManager = new resolutionmgt.ResolutionManager({client:client});
+        this.resolutionManager = new resolutionmgt.ResolutionManager({client:this.client});
     }
     
     return this.ResolutionManager;
