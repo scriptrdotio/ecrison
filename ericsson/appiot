@@ -49,7 +49,7 @@ AppIoT.prototype.getConsumerManager = function() {
     return this.consumerManager;
 };
 
-AppIoT.prototype.getLocationtionManager = function() {
+AppIoT.prototype.getLocationManager = function() {
   
     if (!this.locationManager) {
         this.locationManager = new locationmgt.LocationManager({client:client});
