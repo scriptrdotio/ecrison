@@ -1,0 +1,115 @@
+var consumerModule = require("./consumer");
+var config = require("../config");
+
+/**
+ * Wraps part of the consumer API.
+ * @class ConsumerManager
+ * @constructor ConsumerManager
+ * @param {Object} [dto]
+ * @param {Object} [dto.client]: instance of the Client class (mandatory)
+ */
+function ConsumerManager(dto) {
+
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+
+    this.client = dto.client;
+    for (var key in dto){
+        this[key] = dto[key];
+    }
+}
+
+ConsumerManager.prototype.listConsumers = function() {
+
+    var requestParams = {
+        url: config.appIoTPrefix + "/api/v2/eventConsumers",
+        method: "GET"
+    };
+
+    var data = this.client.callApi(requestParams);
+    var list  = [];
+    for (var i = 0; data && i < data.length; i++) {
+
+        var dataClone = JSON.parse(JSON.stringify(data[i]));
+        dataClone.client = this.client;
+        var consumer = new consumerModule.Consumer(dataClone);
+        list.push(consumer);
+    }
+
+    return list;
+};
+
+ConsumerManager.prototype.getConsumerById = function(id) {
+
+    if (!id) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "id cannot be null or empty."
+        };
+    }
+
+    
+    var requestParams = {
+        url: config.appIoTPrefix + "/api/v2/eventConsumers/" + id,
+        method: "GET"
+    };
+
+    var data = this.client.callApi(requestParams);
+    var dataClone = JSON.parse(JSON.stringify(data));
+    dataClone.client = this.client;
+    return new consumerModule.Consumer(dataClone);
+};
+
+ConsumerManager.prototype.getConsumerByName = function(name) {
+
+    if (!name) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "name cannot be null or empty."
+        };
+    }
+
+    var consumer = null;
+    var consumers = this.listConsumers();
+    for (var i = 0; !consumer && i < consumers.length; i++) {
+        consumer = consumers[i].Name == name ? consumers[i] : null;
+    }
+
+    if (!consumer){
+        throw {
+            errorCode: config.errorCodeList['notfound'],
+            errorDetail: "Coud not find a location with name " + name
+        };
+    }
+
+    return consumer;
+};
+
+/**
+ * @method createConsumer
+ * @param {Object} [dto]
+ * @param {String} [dto.Name]: the name of the consumer to create
+ * @param {Boolean} [dto.UsingHttpEndpoint]: optional. If set to true, specifies that the consumer will be innvokes through HTTP using the below configuration 
+ * @param {String} [dto.HttpEndpoint]: optional, required when UsingHttpEndpoint is true. Specifies the endpoint to use to propagate the event to the consumer
+ * @param {String} [dto.HttpMethod]: optional
+ * @param {String} [dto.HttpUsername]: optional. To be used when UsingHttpEndpoint is true and target endpoint requires basic auth
+ * @param {String} [dto.HttpPassword]: optional. To be used when UsingHttpEndpoint is true and target target endpoint requires basic auth
+ * @param {String} [dto.HttpHeaders]: optional. When UsingHttpEndpoint is true, specify any specific headers that will be sent along with the request to the consumer
+ * @return {Object} instance of Consumer
+ */
+ConsumerManager.prototype.createConsumer = function(dto) {
+
+    var requestParams = {
+        url: config.appIoTPrefix + "/api/v2/eventConsumers",
+        method: "POST",
+        params: dto       
+    };
+
+    var result = this.client.callApi(requestParams); 
+    result.client = this.client;
+    return new consumerModule.Consumer(result);
+};
