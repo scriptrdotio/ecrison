@@ -1,0 +1,27 @@
+var config = require("../config");
+
+function ActuatorManager(dto) {
+
+    if (!dto || !dto.client) {
+        throw {
+            errorCode: config.errorCodeList['missingParameter'],
+            errorDetail: "dto.client cannot be null or empty"
+        };
+    }
+
+    for(key in dto){
+        this[key] = dto[key];
+    }
+}
+
+ActuatorManager.prototype.listActuators = function() {
+
+
+    var url = config.appIoTPrefix + "/api/v2/actuators";
+    var requestParams  = {
+        url: url,
+        method: "GET"
+    }
+
+    return this.client.callApi(requestParams);
+};
