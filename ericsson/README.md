@@ -17,11 +17,37 @@ The /ericsson/config script contains variables you need to update with your own 
 
 To obtain tokens (developer and administrator), sign in to the AppIoT platform and [click on Settings > API Keys](https://eappiot.sensbysigma.com/#/apikeys/apikeys)]
 
+Also note that you can also provide had hoc configuration when instanciating the AppIoT class (see below)
+
 ## Main class of the connector
 The main class of the connector is the /ericsson/appiot class, from which you obtain references to other classes:
+
 ```
+var appIoTModule = require("/modules/ericsson/appiot");
+// instanciation using config file 
+var appIoT = new appIoTModule.AppIoT(); 
+// instanciation with ad hoc config
+var adhocConfig = {
+  token: "some_dev_token",
+  adminToken: "some_admin_token"
+};
 
-var appIoT = new 
+var adhocAppIoT = new appIoTModule.AppIoT(adhocConfig); 
+```
+## Sensors
+If you need to manipulate sensors defined in AppIoT, you can use the SensorManager and Sensor classes. 
+You can obtain an instance of the SensorManager from the AppIoT instance or directly by instanciating the class, as illustrated in the below code snippet. The first option is preferrable as it avoids requiring the "sensormanager" and "client" modules
 
+```
+// Get an instance of SensorManager from the AppIoT instance
+var sensorManager = appIoT.getSensorManager();  
+
+// Create an instance of SensorManager directly
+var sensormanagerModule = require("/ericsson/clientapi/sensorManager");
+var clientModule = require("/ericsson/client");
+var client = new clientModule.Client({});
+var sensorManager = new sensormanagerModule.SensorManager({"client": client});
+```
 ## resolutions
 Resolutions are used to aggregate data based on custom-defined time spans.
+ 
