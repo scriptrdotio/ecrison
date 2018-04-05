@@ -36,18 +36,24 @@ var adhocAppIoT = new appIoTModule.AppIoT(adhocConfig);
 ```
 ## Sensors
 If you need to manipulate sensors defined in AppIoT, you can use the SensorManager and Sensor classes. 
-You can obtain an instance of the SensorManager from the AppIoT instance or directly by instanciating the class, as illustrated in the below code snippet. The first option is preferrable as it avoids requiring the "sensormanager" and "client" modules
+You can obtain an instance of the SensorManager from the AppIoT instance or directly by instanciating the class, as illustrated in the below code snippet. The first option is preferrable as much easier, unless you need some specific customization.
 
 ```
 // Get an instance of SensorManager from the AppIoT instance
 var sensorManager = appIoT.getSensorManager();  
 
-// Create an instance of SensorManager directly
+// Create an instance of SensorManager using its constructor
 var sensormanagerModule = require("/ericsson/clientapi/sensorManager");
 var clientModule = require("/ericsson/client");
 var client = new clientModule.Client({});
 var sensorManager = new sensormanagerModule.SensorManager({"client": client});
 ```
+Using the SensorManager, you can get an instance of a particular sensor or list all sensors within a collection
+```
+// list all sensors in collection and pick on sensor from the list
+var 
+
+
 ## resolutions
 Resolutions are used to aggregate data based on custom-defined time spans.
  
