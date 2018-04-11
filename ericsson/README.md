@@ -48,11 +48,21 @@ var clientModule = require("/ericsson/client");
 var client = new clientModule.Client({});
 var sensorManager = new sensormanagerModule.SensorManager({"client": client});
 ```
-Using the SensorManager, you can get an instance of a particular sensor or list all sensors within a collection
+Using the SensorManager, you can list all sensors within a collection
 ```
 // list all sensors in collection and pick on sensor from the list
-var 
-
+var list = sensorManager.listSensorsInCollection({collectionId: "some_collection_id"});
+// list is an array of Sensor instanced
+```
+Using the SensorManager you can also get a specific sensor instance by id
+```
+var sensor = sensorManager.getSensor({Id: sensorId});
+```
+Using the Sensor class instances, you can obtain the list of measures made by the device or get a specific the latest value measured by the device
+```
+var measureList = sensor.listMeasurements(); // all measures
+var measure = sensor.getMeasurement(); // latest measure
+```
 
 ## resolutions
 Resolutions are used to aggregate data based on custom-defined time spans.
