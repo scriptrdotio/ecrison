@@ -19,7 +19,7 @@ To obtain tokens (developer and administrator), sign in to the AppIoT platform a
 
 Also note that you can also provide had hoc configuration when instanciating the AppIoT class (see below)
 
-## Main class of the connector
+## AppIoT: the main class of the connector
 The main class of the connector is the /ericsson/appiot class, from which you obtain references to other classes:
 
 ```
@@ -65,5 +65,35 @@ var measure = sensor.getMeasurement(); // latest measure
 ```
 
 ## resolutions
-Resolutions are used to aggregate data based on custom-defined time spans.
- 
+Resolutions are used to aggregate data based on custom-defined time spans. You manipulate Resolutions using the ResolutionManager and Resolution classes. Obtaining an instance of ResolutionManager is easily done using the AppIoT class but can also be done through direct instanciation.
+
+```
+// Get an instance of ResolutionManager from the AppIoT instance
+var resolutionManager = appIoT.getResolutionManager();  
+
+// Create an instance of ResolutionManager using its constructor
+var resolution = require("/ericsson/clientapi/resolutionManager");
+var clientModule = require("/ericsson/client");
+var client = new clientModule.Client(); 
+var resolutionManager = new resolution.ResolutionManager({"client": client});
+``` 
+Using the ResolutionManager, you can list available Resolutions 
+```
+// list all resolutions
+var list = resolutionManager.listResolutions();
+// list is an array of Resolution instances
+```
+You can also get a specific Resolution by id
+```
+// get a specific resolution
+var resolution = resolutionManager.getResolution({id : resolutionId});
+```
+Using an instance of Resolution, you can list all measures made by a specific device, filtering by start/end data en number of data points
+```
+var measures = resolution.listMeasurements({
+        "sensorId" :"some_id",
+        "startTime":"some_ISO_date",
+        "endTime":"some_ISO_date",
+        "maximumNumberOfDataPoints":some_max_number
+});
+```
