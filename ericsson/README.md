@@ -1,5 +1,5 @@
 # ecrisson
-This connector wraps the client and admin API exposed by Ericsson's AppIoT platfrom, to which the connector gives you access through JavaScript objects and methods. 
+This connector wraps the client and admin API exposed by Ericsson's AppIoT platfrom, to which the connector gives access through JavaScript objects and methods. 
 
 The AppIoT platform provides IP based southbound (downstream) and northbound (upstream) communication with gateways and devices and offers the following main features:
 - device management
@@ -54,7 +54,7 @@ Using the SensorManager, you can list all sensors within a collection
 var list = sensorManager.listSensorsInCollection({collectionId: "some_collection_id"});
 // list is an array of Sensor instanced
 ```
-Using the SensorManager you can also get a specific sensor instance by id
+Using the SensorManager you can also get a specific Sensor instance by id
 ```
 var sensor = sensorManager.getSensor({Id: sensorId});
 ```
@@ -72,10 +72,10 @@ Resolutions are used to aggregate data based on custom-defined time spans. You m
 var resolutionManager = appIoT.getResolutionManager();  
 
 // Create an instance of ResolutionManager using its constructor
-var resolution = require("/ericsson/clientapi/resolutionManager");
+var resolutionModule = require("/ericsson/clientapi/resolutionManager");
 var clientModule = require("/ericsson/client");
 var client = new clientModule.Client(); 
-var resolutionManager = new resolution.ResolutionManager({"client": client});
+var resolutionManager = new resolutionModule.ResolutionManager({"client": client});
 ``` 
 Using the ResolutionManager, you can list available Resolutions 
 ```
@@ -83,7 +83,7 @@ Using the ResolutionManager, you can list available Resolutions
 var list = resolutionManager.listResolutions();
 // list is an array of Resolution instances
 ```
-You can also get a specific Resolution by id
+You can also get a specific instance of Resolution by id
 ```
 // get a specific resolution
 var resolution = resolutionManager.getResolution({id : resolutionId});
@@ -96,4 +96,37 @@ var measures = resolution.listMeasurements({
         "endTime":"some_ISO_date",
         "maximumNumberOfDataPoints":some_max_number
 });
+```
+
+## Locations
+Location represent physical place or areas, where devices and gateways are deployed. As it is the case with most concepts wrapped by the connector (e.g. Resolutions and Sensors above), there are two classes to manipulatre Locations: the LocationManager and the Location classes. Similarly to the other classes, you can obtain an instance of LocationManager via an instance of AppIoT or via direct constructor invocation.
+
+```
+// Get an instance of LocationManager from the AppIoT instance
+var locationManager = appIoT.getLocationManager();
+
+// Create an instance of ResolutionManager using its constructor
+var locationModule = require("/ericsson/clientapi/locationManager");
+var clientModule = require("/ericsson/client");
+var client = new clientModule.Client(); 
+var locationManager = new locationModule.LocationManager({"client": client});
+```
+Using the LocationManager instance you can list all locations defined in your AppIoT account
+```
+var list = locationManager.listLocations();
+// list is an Array of Location instances
+```
+You can also get an instance of Location by name
+```
+var location = locationManager.getLocationByName("location_name");
+```
+Or you can list all children locations of a given location
+```
+var childLocationList = locationManager.listChildLocations({id:"some_location_id"});
+// childLocationList is an Array of Location instances
+```
+Using a Location instance, you can list the calculated values of the devices contained in that location. Calculated values are derived properties obtained from the combination/calculation of the values of other properties (measures) of a device. Calculated values are defined on the App IoT platform.
+```
+var list = location.getCalculatedValues();
+// NOTE: list is an array of Sensor instances, containing calculated values
 ```
