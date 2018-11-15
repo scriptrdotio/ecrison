@@ -15,7 +15,7 @@ The /ericsson/config script contains variables you need to update with your own 
 - adminToken should be set to an admin authentication token obtained from Ericsson
 - appIoTPrefix should point to your App IoT endpoint. Unless otherwise specified by Ericsson, keep the default value
 
-To obtain tokens (developer and administrator), sign in to the AppIoT platform and [click on Settings > API Keys](https://eappiot.sensbysigma.com/#/apikeys/apikeys)]
+To obtain tokens (developer and administrator), sign in to the AppIoT platform and [click on Settings > API Keys](https://eappiot.sensbysigma.com/#/apikeys/apikeys)
 
 Also note that you can also provide had hoc configuration when instanciating the AppIoT class (see below)
 
