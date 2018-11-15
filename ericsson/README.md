@@ -134,4 +134,4 @@ var list = location.getCalculatedValues();
 Collections are logical groupings or resources such as devices and sensors. You can use collections in the same way you used the other classes. You would usually obtain an instance of CollectionManager, either from an instance of the AppIoT class, or directly using the constructor of the CollectionManager class. Using the CollectionManager, you can list Collections or obtains specific instances of collection by id.
 
 # More integration
-Note that you can also subscribe your scriptr.io APIs (i.e. you own scripts running on scriptr.io) by associating them to triggers and events in the App IoT plaform.
+Note that you can also subscribe your scriptr.io APIs (i.e. you own scripts running on scriptr.io) as callbacks, by associating them to triggers and events in the App IoT plaform.
