@@ -17,7 +17,7 @@ The /ericsson/config script contains variables you need to update with your own 
 
 To obtain tokens (developer and administrator), sign in to the AppIoT platform and [click on Settings > API Keys](https://eappiot.sensbysigma.com/#/apikeys/apikeys)
 
-Also note that you can also provide had hoc configuration when instanciating the AppIoT class (see below)
+Also note that you can also provide ad hoc configuration when instanciating the AppIoT class (see below)
 
 ## AppIoT: the main class of the connector
 The main class of the connector is the /ericsson/appiot class, from which you obtain references to other classes:
