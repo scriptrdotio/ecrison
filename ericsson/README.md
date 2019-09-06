@@ -1,5 +1,5 @@
 # ecrisson
-This connector wraps the client and admin API exposed by Ericsson's AppIoT platfrom, to which the connector gives access through JavaScript objects and methods. 
+This connector wraps the client and admin API exposed by Ericsson's Device & Data Management [AppIoT](https://docs.ddm.iot-accelerator.ericsson.net/?page_id=7391) platform, to which the connector gives access through JavaScript objects and methods. 
 
 The AppIoT platform provides IP based southbound (downstream) and northbound (upstream) communication with gateways and devices and offers the following main features:
 - device management
